@@ -66,7 +66,7 @@ resource "azurerm_local_network_gateway" "lngw1" {
   name                = "azlngw1"
   resource_group_name = "hybridrg"
   location            = "${var.location}"
-  gateway_address     = "${aws_vpn_connection.main.tunnel1_address}"
+  gateway_address     = "${aws_vpn_connection.main.tunnel2_address}"
   address_space       = ["${aws_vpc.vpc1.cidr_block}"]
 }
 
@@ -74,7 +74,7 @@ resource "azurerm_local_network_gateway" "lngw2" {
   name                = "azlngw2"
   resource_group_name = "hybridrg"
   location            = "${var.location}"
-  gateway_address     = "${aws_vpn_connection.main.tunnel2_address}"
+  gateway_address     = "${aws_vpn_connection.main.tunnel1_address}"
   address_space       = ["${aws_vpc.vpc1.cidr_block}"]
 }
 
@@ -87,7 +87,7 @@ resource "azurerm_virtual_network_gateway_connection" "vngc1" {
   virtual_network_gateway_id = "${azurerm_virtual_network_gateway.vng.id}"
   local_network_gateway_id   = "${azurerm_local_network_gateway.lngw1.id}"
 
-  shared_key = "${aws_vpn_connection.main.tunnel1_preshared_key}"
+  shared_key = "${aws_vpn_connection.main.tunnel2_preshared_key}"
 }
 
 resource "azurerm_virtual_network_gateway_connection" "vngc2" {
@@ -99,8 +99,9 @@ resource "azurerm_virtual_network_gateway_connection" "vngc2" {
   virtual_network_gateway_id = "${azurerm_virtual_network_gateway.vng.id}"
   local_network_gateway_id   = "${azurerm_local_network_gateway.lngw2.id}"
 
-  shared_key = "${aws_vpn_connection.main.tunnel2_preshared_key}"
+  shared_key = "${aws_vpn_connection.main.tunnel1_preshared_key}"
 }
+
 
 resource "azurerm_route_table" "route" {
   name                          = "awsroute"
