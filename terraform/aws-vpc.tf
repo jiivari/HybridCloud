@@ -67,5 +67,5 @@ resource "aws_vpn_connection_route" "azure" {
 resource "aws_route" "azureroute" {
   route_table_id            = "${aws_vpc.vpc1.main_route_table_id}"
   destination_cidr_block    = "${azurerm_subnet.subnet.address_prefix}"
-  vpc_peering_connection_id = "${aws_vpn_gateway.vpn_gw.id}"
+  gateway_id                = "${aws_vpn_gateway.vpn_gw.id}"
 }
