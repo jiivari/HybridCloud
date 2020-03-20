@@ -6,7 +6,8 @@ variable "location" {
   default = "West Europe"
 }
 
-provider "azure" {
+provider "azurerm" {
+    version = "=2.0.0"
     client_id = "${var.azure_client_id}"
     client_secret = "${var.azure_client_secret}"
     tenant_id = "${var.tenant_id}"
